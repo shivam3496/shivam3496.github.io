@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Paper Strings — Official Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts: Libre Baskerville (headings) + Montserrat (body/nav) -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --hero-bg: #191919;
+      --menu-bg: rgba(25,25,25,0.66);
+      --menu-bg-scroll: #fff;
+      --main-text: #fff;
+      --main-text-dark: #181515;
+      --accent: #bfa858;
+      --border: #d3c17b;
+      --section-bg: #fff;
+      --section-bg-alt: #fcf7ea;
+      --spotify: #1db954;
+      --font-head: 'Libre Baskerville', serif;
+      --font-body: 'Montserrat', Arial, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--hero-bg); margin: 0; font-family: var(--font-body); color: var(--main-text);}
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%;
+      z-index: 10000;
+      display: flex; justify-content: center; align-items: center;
+      padding: 0.8em 0 0.7em 0;
+      transition: background 0.24s, box-shadow .19s;
+      background: var(--menu-bg); box-shadow: none;
+    }
+    nav.white {
+      background: var(--menu-bg-scroll);
+      box-shadow: 0 2.5px 14px rgba(0,0,0,0.09);
+    }
+    nav .brand-logo { display: none; max-height: 55px; margin-right: 2.2em; }
+    nav.white .brand-logo { display: block; opacity: 1;}
+    nav a {
+      color: var(--main-text);
+      text-decoration: none;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 1em;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      margin: 0 1.15em;
+      padding: .5em .9em;
+      border-radius: 6px;
+      transition: color .14s, background .14s;
+    }
+    nav a.active, nav a:hover {
+      color: var(--accent);
+      background: rgba(191,168,88,0.11);
+    }
+    nav.white a { color: var(--main-text-dark);}
+    nav.white a.active, nav.white a:hover {
+      color: var(--accent);
+      background: rgba(191,168,88,0.08);
+    }
+    header.hero {
+      position: relative;
+      width: 100vw; height: 100vh; min-height: 520px;
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+      background: var(--hero-bg);
+    }
+    .hero-video-bg {
+      position: absolute;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      object-fit: cover; z-index: 1;
+      min-width: 100%; min-height: 100%;
+      background: var(--hero-bg);
+    }
+    .hero-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(90deg, #191919ef 60%, #bfa85833 100%);
+      z-index: 2;
+    }
+    .hero-content {
+      position: relative; z-index: 3;
+      text-align: center; max-width: 94vw;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .hero-content h1 {
+      font-family: var(--font-head);
+      font-size: 3.5rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 0.2em;
+      text-transform: uppercase;
+      text-shadow: 0 5px 27px #1b151aee;
+    }
+    .hero-content p {
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      font-size: 1.28rem;
+      margin-bottom: 0.7em;
+      letter-spacing: 1.5px;
+    }
+    .section-card {
+      background: var(--section-bg);
+      border-left: 7px solid var(--accent);
+      border-radius: 16px;
+      margin: 5em auto 0 auto; max-width: 980px;
+      box-shadow: 0 3px 36px #29291612;
+      padding: 3em 2em; color: var(--main-text-dark);
+      position: relative; z-index: 2;
+    }
+    .section-card h2 {
+      font-family: var(--font-head);
+      color: var(--accent);
+      font-size: 2em; text-transform: uppercase;
+      margin: 0 0 1.0em 0;
+      border-bottom: 1.5px solid var(--border);
+      padding-bottom: 0.21em;
+      letter-spacing: 1.1px; width: max-content;
+    }
+    .about-flex { display: flex; align-items: center; gap: 2.3em; flex-wrap: wrap;}
+    .profile-pic {
+      width: 135px; height: 135px; border-radius: 50%; object-fit: cover;
+      background: #f3e197; border: 2.5px solid var(--accent);
+      box-shadow: 0 3px 14px #c6b37636; flex-shrink: 0; margin-bottom: 1em;
+    }
+    .about-flex p { font-size: 1.12em; line-height: 1.6; font-family: var(--font-body);}
+    .music-albums { gap: 2em; display: flex; flex-wrap: wrap; }
+    .album {
+      background: #fcf7ea;
+      border-radius: 10px; padding: 1.15em;
+      box-shadow: 0 1px 7px #bfa8582e;
+      text-align: center;
+      min-width: 180px; max-width: 210px;
+      border: 1.5px solid var(--accent);
+    }
+    .album img {
+      width: 90px; height: 90px; object-fit: cover; border-radius: 7px;
+      margin-bottom: 0.7em; background: #222;
+    }
+    .album-title {
+      font-family: var(--font-head);
+      font-size: 1.17em; font-weight: 700;
+      color: var(--accent);
+      margin: .7em 0 .3em 0;
+      text-transform: uppercase;
+    }
+    .album a {
+      margin: 0 0.14em; color: var(--accent); text-decoration: none; font-weight: 700;
+      font-family: var(--font-body); font-size: 0.97em; letter-spacing: 0.4px;
+      transition: color .12s; text-transform: uppercase;
+    }
+    .album a:hover { color: #aa892e;}
+    /* Spotify green button */
+    .spotify-btn {
+      display: inline-block;
+      background: var(--spotify);
+      color: #fff !important;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0.8em 2em;
+      border-radius: 40px;
+      font-size: 1.08em;
+      box-shadow: 0 2px 14px #0002;
+      margin: 0 0.2em;
+      text-decoration: none;
+      transition: background 0.15s, box-shadow 0.15s;
+    }
+    .spotify-btn:hover {
+      background: #15b054;
+      color: #fff !important;
+      box-shadow: 0 4px 16px #17c06355;
+    }
+    .show-list { display: block; margin: 0; padding: 0;}
+    .show-list li {
+      margin-bottom: 1.12em; padding-left: 3px; font-family: var(--font-body);
+      font-size: 1.09em; color: #78662b; letter-spacing: 0.25px; text-transform: uppercase;
+    }
+    .gallery { display: flex; flex-wrap: wrap; gap: 1.5em; justify-content: center;}
+    .gallery img { width: 160px; border-radius: 7px; background: #fcf7ea; box-shadow: 0 1px 9px #c2b04d18; object-fit: cover; aspect-ratio: 4/3; transition: transform .16s;}
+    .gallery img:hover { transform: scale(1.06);}
+    #contact label {
+      font-family: var(--font-body); font-weight: 700; color: var(--accent);
+      display: block; margin-bottom: .4em; text-align: left; text-transform: uppercase; letter-spacing: 0.7px;
+    }
+    #contact input, #contact textarea {
+      width: 100%; border: 1.25px solid var(--accent); border-radius: 4px;
+      font-size: 1em; font-family: var(--font-body);
+      padding: .66em; margin-bottom: 1em; color: #563e18; background: #fdf7e9;
+    }
+    #contact button {
+      background: var(--accent); color: #231c10;
+      font-weight: 900; font-family: var(--font-body);
+      border: none; padding: .7em 2em; border-radius: 10px; font-size: 1.04em;
+      margin-top: .1em; text-transform: uppercase; letter-spacing: 1.1px;
+      transition: background 0.14s, color 0.09s;
+    }
+    #contact button:hover { background: #aa892e; color:#fff;}
+    .footer { text-align: center; color: var(--accent); font-size: 1em; margin: 4em 0 1.2em 90px; padding-top: 0.8em; font-family: var(--font-body); text-transform: uppercase; }
+    /* Bottom Spotify player */
+    #bottom-player {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      background: #181515;
+      box-shadow: 0 -3px 16px #19191910;
+      z-index: 99999;
+      padding: 0.3em 0 0.2em 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #bottom-player iframe {
+      width: min(400px, 94vw);
+      min-width: 220px;
+      max-width: 98vw;
+      border: none;
+      transition: box-shadow 0.2s;
+      box-shadow: 0 1px 16px #bfa85829;
+    }
+    @media (max-width: 500px) { #bottom-player iframe { height: 64px; } }
+    body { padding-bottom: 90px !important; } /* Give space above player */
+    @media (max-width: 950px) {
+      .section-card, .about-section { padding: 1.1em;}
+      .about-flex { flex-direction: column; text-align: center; gap: 1.1em;}
+      .music-albums { flex-direction: column; align-items: center;}
+      .gallery { flex-direction: column; align-items: center;}
+    }
+    @media (max-width: 600px) {
+      nav { flex-direction: column; gap: 0.4em; font-size: 0.96em;}
+      .section-card h2 { font-size: 1.23em;}
+      .hero-content h1 { font-size: 2rem;}
+    }
+  </style>
+</head>
+<body>
+  <nav id="mainNav">
+    <!-- <img src="images/your_logo.png" alt="Band Logo" class="brand-logo" style="height:48px;"> -->
+    <a href="#home" class="active">HOME</a>
+    <a href="#about">ABOUT</a>
+    <a href="#bio">BIOGRAPHY</a>
+    <a href="#discography">DISCOGRAPHY</a>
+    <a href="#shows">SHOWS</a>
+    <a href="#music">MUSIC</a>
+    <a href="#photos">PHOTOS</a>
+    <a href="#merch">MERCH</a>
+    <a href="#contact">CONTACT</a>
+  </nav>
+
+  <header id="home" class="hero">
+    <video
+      class="hero-video-bg"
+      src="images/IMG_1823.MOV"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster="images/hero-bg.jpg"
+    ></video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>THE PAPER STRINGS</h1>
+      <p>MODERN FOLK MUSIC &mdash; LISTEN TO OUR NEW ALBUM!</p>
+    </div>
+  </header>
+
+  <section id="about" class="section-card">
+    <h2>ABOUT</h2>
+    <div class="about-flex">
+      <img src="images/profile.png" alt="Band Photo" class="profile-pic">
+      <p>
+        The Paper Strings craft honest, modern folk music with lyricism and lively stage energy.<br>
+        <b>WANDERING LIGHT</b> (OUT NOW) IS AVAILABLE EVERYWHERE!
+      </p>
+    </div>
+  </section>
+
+  <section id="bio" class="section-card">
+    <h2>BIOGRAPHY</h2>
+    <p>
+      THE PAPER STRINGS EVOLVED FROM INTIMATE OPEN MICS TO FESTIVAL MAIN STAGES, ALWAYS STAYING TRUE TO THE SPIRIT OF INDIE FOLK TRADITION.
+    </p>
+  </section>
+
+  <section id="discography" class="section-card">
+    <h2>DISCOGRAPHY</h2>
+    <ul>
+      <li><b>WANDERING LIGHT</b> (2024)</li>
+      <li><b>QUIET ROAD EP</b> (2022)</li>
+      <li><b>LIVE SESSIONS</b> (2019)</li>
+    </ul>
+  </section>
+
+  <section id="shows" class="section-card">
+    <h2>SHOWS</h2>
+    <ul class="show-list">
+      <li>JULY 25 — RIVERSIDE CAFE, PORTLAND</li>
+      <li>AUGUST 10 — SUNFEST, SEATTLE</li>
+      <li>SEPTEMBER 3 — LOCAL STUDIO, EUGENE</li>
+    </ul>
+  </section>
+
+  <section id="music" class="section-card">
+    <h2>MUSIC</h2>
+    <div class="music-albums">
+      <div class="album">
+        <img src="images/album1.jpg" alt="Album art">
+        <div class="album-title">WANDERING LIGHT</div>
+        <a href="https://open.spotify.com/artist/0A1hssZYT0nlIY5c1mdYxu?si=1pqUgx7OQeGmgcqmo9ADIw" target="_blank">SPOTIFY</a>
+        <a href="#">APPLE MUSIC</a>
+        <a href="#">BANDCAMP</a>
+      </div>
+      <div class="album">
+        <img src="images/album2.jpg" alt="Album art">
+        <div class="album-title">QUIET ROAD EP</div>
+        <a href="#">SPOTIFY</a>
+        <a href="#">APPLE MUSIC</a>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:2em;">
+      <a href="https://open.spotify.com/artist/0A1hssZYT0nlIY5c1mdYxu?si=1pqUgx7OQeGmgcqmo9ADIw"
+         target="_blank"
+         class="spotify-btn"
+      >LISTEN ON SPOTIFY</a>
+    </p>
+  </section>
+
+  <section id="photos" class="section-card">
+    <h2>PHOTOS</h2>
+    <div class="gallery">
+      <img src="images/band_stage.jpg" alt="Live Shot">
+      <img src="images/acoustic_live.jpg" alt="Acoustic Set">
+      <!-- Add more gallery images if you wish -->
+    </div>
+  </section>
+
+  <section id="merch" class="section-card">
+    <h2>MERCH</h2>
+    <ul>
+      <li>
+        <b>LOGO T-SHIRT</b> – $20<br>
+        <a href="#">BUY NOW</a>
+      </li>
+      <li>
+        <b>WANDERING LIGHT (CD)</b> – $12<br>
+        <a href="#">BUY NOW</a>
+      </li>
+    </ul>
+    <p>FOR MORE MERCH, VISIT OUR <a href="#">BANDCAMP</a> OR <a href="#">SHOP</a>!</p>
+  </section>
+
+  <section id="contact" class="section-card">
+    <h2>CONTACT</h2>
+    <form id="contactForm" onsubmit="return sendWhatsAppMsg(event)">
+      <label for="name">YOUR NAME</label>
+      <input id="name" name="name" type="text" required>
+      <label for="email">EMAIL</label>
+      <input id="email" name="email" type="email" required>
+      <label for="message">MESSAGE</label>
+      <textarea id="message" name="message" rows="4" required></textarea>
+      <button type="submit">SEND VIA WHATSAPP</button>
+    </form>
+    <p style="margin-top:1em;">
+      OR EMAIL US: <a href="mailto:info@thepaperstrings.com">INFO@THEPAPERSTRINGS.COM</a>
+    </p>
+  </section>
+
+  <div class="footer">
+    &copy; 2024 THE PAPER STRINGS. ALL RIGHTS RESERVED.
+  </div>
+
+  <!-- Fixed Bottom Spotify Player -->
+  <div id="bottom-player">
+    <iframe
+      style="border-radius:20px"
+      src="https://open.spotify.com/embed/track/29jjZSP6fDNQShNqXzL1tZ?utm_source=generator"
+      width="100%"
+      height="80"
+      frameborder="0"
+      allowtransparency="true"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy"
+    ></iframe>
+  </div>
+
+  <script>
+    // Menu color transition on scroll
+    window.addEventListener('scroll', function() {
+      const nav = document.getElementById('mainNav');
+      if (window.scrollY > window.innerHeight * 0.7) {
+        nav.classList.add('white');
+      } else {
+        nav.classList.remove('white');
+      }
+    });
+
+    // WhatsApp integration
+    function sendWhatsAppMsg(event) {
+      event.preventDefault();
+      var name    = encodeURIComponent(document.getElementById('name').value);
+      var email   = encodeURIComponent(document.getElementById('email').value);
+      var message = encodeURIComponent(document.getElementById('message').value);
+      var phoneNumber = '917889364518'; // Change to your WhatsApp number!
+      var text = `Name: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
+      var waUrl = `https://wa.me/${phoneNumber}?text=${text}`;
+      window.open(waUrl, '_blank');
+      return false;
+    }
+  </script>
+</body>
+</html>

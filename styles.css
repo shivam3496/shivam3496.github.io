@@ -1,0 +1,29 @@
+.about-flex {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+  flex-wrap: wrap;
+}
+
+.profile-pic {
+  width: 120px;              /* Fixed size for thumbnail */
+  height: 120px;
+  border-radius: 50%;        /* Makes the image a perfect circle */
+  object-fit: cover;         /* Crops the image to fit the container */
+  box-shadow: 0 2px 10px rgba(40,99,181,0.10);  /* Subtle shadow for depth */
+  border: 3px solid #e3eaf6; /* Soft border */
+  flex-shrink: 0;            /* Prevent image shrinking */
+  margin-bottom: 1em;
+}
+
+@media (max-width: 650px) {
+  .about-flex {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.2em;
+  }
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+  }
+}
